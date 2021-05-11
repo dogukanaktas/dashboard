@@ -1,8 +1,9 @@
 import { FC } from "react";
 import { Redirect, Route } from "react-router";
 
-type PrivateRouteProps = {
+interface PrivateRouteProps  {
   isAuth: boolean;
+  children: any;
 };
 
 const PrivateRoute: FC<PrivateRouteProps> = ({
