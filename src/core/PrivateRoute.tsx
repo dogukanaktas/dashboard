@@ -1,23 +1,25 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { Redirect, Route } from "react-router";
+import { AuthContext } from "../context/AuthContext";
 
 interface PrivateRouteProps  {
-  isAuth: boolean;
-  children: any;
+  
 };
 
 const PrivateRoute: FC<PrivateRouteProps> = ({
-  isAuth,
   children,
   ...rest
 }) => {
+  
+  const {isAuth} = useContext(AuthContext)
+  
   return (
     <Route
       render={({ location }) => {
         if (isAuth) {
           return children;
         }
-
+        console.log(isAuth)
         return (
           <Redirect
             to={{
