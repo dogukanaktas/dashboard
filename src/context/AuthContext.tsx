@@ -6,22 +6,21 @@ import React, {
   SetStateAction,
 } from "react";
 
-interface Props {
-  children: FC<null> | (() => JSX.Element);
-} 
+// interface Props {
+//   children: FC<null> | (() => JSX.Element);
+// }
 
 interface IValue {
-  isAuth: boolean;
-  setIsAuth: Dispatch<SetStateAction<boolean>>;
+  isAuth?: boolean;
+  setIsAuth?: Dispatch<SetStateAction<boolean>>;
 }
 
-
-const AuthContext = createContext({});
+const AuthContext = createContext<IValue>({});
 
 const AuthProvider: FC<any> = ({ children }) => {
   const [isAuth, setIsAuth] = useState(false);
 
-  const value: IValue = {
+  const value = {
     isAuth,
     setIsAuth,
   };
