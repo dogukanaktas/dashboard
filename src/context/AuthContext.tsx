@@ -1,31 +1,68 @@
-import React, {
-  useState,
-  createContext,
-  FC,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import React, { useState, useEffect, createContext, FC } from "react";
+import { useHistory } from "react-router";
+import loginService from "../services/loginService";
 
-// interface Props {
-//   children: FC<null> | (() => JSX.Element);
-// }
+type LoginType = (email: string | number, password: string) => void;
+type LogoutType = () => void;
 
 interface IValue {
-  isAuth?: boolean;
-  setIsAuth?: Dispatch<SetStateAction<boolean>>;
+  isAuth: boolean | null;
+  login: LoginType;
+  logout: LogoutType;
 }
 
-const AuthContext = createContext<IValue>({});
+export interface AuthContextProps {}
 
-const AuthProvider: FC<any> = ({ children }) => {
-  const [isAuth, setIsAuth] = useState(false);
+const AuthContext = createContext<IValue>({
+  isAuth: null,
+  login: () => {},
+  logout: () => {}
+});
 
-  const value = {
-    isAuth,
-    setIsAuth,
+const AuthProvider: FC<AuthContextProps> = ({ children }) => {
+  const [isAuth, setIsAuth] = useState<boolean | null>(false);
+  const history = useHistory();
+
+  useEffect(() => {
+    
+  },[isAuth])
+
+
+  const login: LoginType = (email, password) => {
+    const loginInfos = {
+      email,
+      password,
+    };
+    
+    loginService
+      .getToken("/login", loginInfos)
+      .then((accessToken) => {
+        localStorage.setItem("accessToken", `Bearer ${accessToken}`);
+        setIsAuth(true);
+      })
+      .catch((err) => {
+        // setIsInvalid(true)
+        console.log(err);
+      });
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  const logout: LogoutType = () => {
+    setIsAuth(false);
+    localStorage.removeItem("accessToken");
+    history.push("/login");
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{
+        isAuth,
+        login,
+        logout,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export { AuthContext, AuthProvider };
