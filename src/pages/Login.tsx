@@ -9,12 +9,11 @@ import {
   FormFeedback,
 } from "reactstrap";
 import { AuthContext } from "../context/AuthContext";
-import loginService from "../services/loginService";
 
 
 interface ILoginInfos {
   email: string | number;
-  password: string | number;
+  password: string;
 }
 type HandleLoginType = (e: React.ChangeEvent<HTMLInputElement>) => void;
 type FormSubmitType = (e: React.FormEvent<HTMLFormElement>) => void;
@@ -28,7 +27,7 @@ const Login: FC<null> = () => {
   });
   const [ isInvalid,setIsInvalid ] = useState(false);
   const { state }: any = useLocation();
-  const { isAuth, setIsAuth } = useContext(AuthContext);
+  const { isAuth, login } = useContext(AuthContext);
 
 
   const handleLogin: HandleLoginType = (e) => {
@@ -42,18 +41,7 @@ const Login: FC<null> = () => {
 
   const formSubmit: FormSubmitType = (e) => {
     e.preventDefault();
-
-    loginService
-      .getToken("/login", loginInfos)
-      .then((accessToken) => {
-        localStorage.setItem("accessToken", `Bearer ${accessToken}`);
-        setIsAuth && setIsAuth(true);
-      })
-      .catch((err) => {
-        setIsAuth && setIsAuth(false);
-        setIsInvalid(true)
-        console.log(err)
-      });
+    login(loginInfos?.email, loginInfos?.password);
   };
 
   if (isAuth) {
@@ -73,7 +61,6 @@ const Login: FC<null> = () => {
           onChange={handleLogin}
           invalid={isInvalid}
         />
-        <FormFeedback>Username or password is invalid!</FormFeedback>
       </FormGroup>
       <FormGroup>
         <Label for="password">Password</Label>
