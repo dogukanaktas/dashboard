@@ -2,9 +2,7 @@ import axios from "axios";
 import config from "../env/config";
 
 
-// interface IGetToken {
-//   (url: string, payload: object) => string;
-// }
+// type IGetToken = (url: string, payload: object) => string;
 
 
 
@@ -25,6 +23,9 @@ const loginService = {
       console.log(request);
     }
   },
+  logOut: () => {
+    localStorage.removeItem("accessToken");
+  }
 };
 
 export default loginService;
