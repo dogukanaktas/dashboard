@@ -1,12 +1,22 @@
-import React from 'react'
-import { withRouter } from 'react-router'
+import React from "react";
+import { Redirect } from "react-router";
 
-const Admin: React.FC = (props) => {
-    return (
-        <div>
-            ADMIN
-        </div>
-    )
-}
+const Admin: React.FC = () => {
+  const accessToken: string | null = localStorage.getItem("accessToken");
+  console.log(accessToken);
 
-export default withRouter(Admin);
+  if (!accessToken) {
+    return <Redirect to="/login" />;
+  }
+
+  return (
+    <>
+      <p>ADMIN</p>
+      <button onClick={() => localStorage.removeItem("accessToken")}>
+        LOG OUT
+      </button>
+    </>
+  );
+};
+
+export default Admin;
