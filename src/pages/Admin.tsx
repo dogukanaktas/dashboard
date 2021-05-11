@@ -1,20 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Redirect } from "react-router";
+import { AuthContext } from "../context/AuthContext";
 
 const Admin: React.FC = () => {
-  const accessToken: string | null = localStorage.getItem("accessToken");
-  console.log(accessToken);
+  const { isAuth, logout } = useContext(AuthContext);
+  console.log(isAuth);
 
-  if (!accessToken) {
+  if (!isAuth) {
     return <Redirect to="/login" />;
   }
 
   return (
     <>
       <p>ADMIN</p>
-      <button onClick={() => localStorage.removeItem("accessToken")}>
-        LOG OUT
-      </button>
+      <button onClick={() => logout()}>LOG OUT</button>
     </>
   );
 };
