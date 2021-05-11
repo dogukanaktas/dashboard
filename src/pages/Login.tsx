@@ -1,6 +1,5 @@
 import React, { useState, useContext, FC } from "react";
 import { Redirect, useLocation } from "react-router";
-import { Location } from "history";
 import {
   FormGroup,
   Input,
@@ -12,27 +11,24 @@ import {
 import { AuthContext } from "../context/AuthContext";
 import loginService from "../services/loginService";
 
+
 interface ILoginInfos {
   email: string | number;
   password: string | number;
 }
-type ContextType = {
-  isAuth: boolean;
-  setIsAuth: React.Dispatch<React.SetStateAction<boolean>>;
-};
-type HandleLoginType = (e: React.ChangeEvent<HTMLInputElement>) => void
-type FormSubmitType = (e: React.FormEvent<HTMLFormElement>) => void
+type HandleLoginType = (e: React.ChangeEvent<HTMLInputElement>) => void;
+type FormSubmitType = (e: React.FormEvent<HTMLFormElement>) => void;
 
 
-const Login: FC <null> = () => {
 
-  const { state }: any = useLocation();
-  const { isAuth, setIsAuth } = useContext(AuthContext) as ContextType;
-
+const Login: FC<null> = () => {
   const [loginInfos, setLoginInfos] = useState<ILoginInfos>({
     email: "",
     password: "",
   });
+  const [ isInvalid,setIsInvalid ] = useState(false);
+  const { state }: any = useLocation();
+  const { isAuth, setIsAuth } = useContext(AuthContext);
 
 
   const handleLogin: HandleLoginType = (e) => {
@@ -46,14 +42,18 @@ const Login: FC <null> = () => {
 
   const formSubmit: FormSubmitType = (e) => {
     e.preventDefault();
-    console.log(loginInfos);
 
     loginService
       .getToken("/login", loginInfos)
       .then((accessToken) => {
         localStorage.setItem("accessToken", `Bearer ${accessToken}`);
+        setIsAuth && setIsAuth(true);
       })
-      .catch(() => setIsAuth(true));
+      .catch((err) => {
+        setIsAuth && setIsAuth(false);
+        setIsInvalid(true)
+        console.log(err)
+      });
   };
 
   if (isAuth) {
@@ -71,7 +71,7 @@ const Login: FC <null> = () => {
           placeholder="email"
           value={loginInfos.email}
           onChange={handleLogin}
-          invalid={isAuth}
+          invalid={isInvalid}
         />
         <FormFeedback>Username or password is invalid!</FormFeedback>
       </FormGroup>
@@ -84,7 +84,7 @@ const Login: FC <null> = () => {
           placeholder="password"
           value={loginInfos.password}
           onChange={handleLogin}
-          invalid={isAuth}
+          invalid={isInvalid}
         />
         <FormFeedback>Username or password is invalid!</FormFeedback>
       </FormGroup>
