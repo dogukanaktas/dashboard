@@ -1,20 +1,27 @@
 import "./App.css";
-import { useState, FC  } from "react";
-import { Route, Switch, Link, BrowserRouter as Router } from "react-router-dom";
+import { FC, useContext } from "react";
+import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import PrivateRoute from "./core/PrivateRoute";
 import routes from "./routes/routes";
+import { AuthContext } from "./context/AuthContext";
+
+interface IRoute {
+  component: FC<any>;
+  path: string;
+}
 
 const App: FC = () => {
-  const [toggle, setToggle] = useState(false);
+  const { isAuth } = useContext(AuthContext);
+  
   return (
     <div>
       <Router>
         <Switch>
           {routes?.map((route, key) => {
-            const { component: Component, path } = route;
+            const { component: Component, path }: IRoute = route;
             if (route.private) {
               return (
-                <PrivateRoute isAuth={toggle} key={key}>
+                <PrivateRoute isAuth={isAuth ? isAuth : false} key={key}>
                   <Component />
                 </PrivateRoute>
               );
@@ -26,12 +33,7 @@ const App: FC = () => {
             );
           })}
         </Switch>
-        <Link to="/user">go user</Link>
-        <Link to="/admin">go admin</Link>
-        <Link to="/login">go login</Link>
-        <Link to="/">go home</Link>
       </Router>
-      <button onClick={() => setToggle((v) => !v)}>toggle auth</button>
     </div>
   );
 };
