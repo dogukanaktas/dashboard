@@ -1,17 +1,15 @@
 import "./App.css";
-import { FC, useContext } from "react";
+import { FC } from "react";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import PrivateRoute from "./core/PrivateRoute";
 import routes from "./routes/routes";
-import { AuthContext } from "./context/AuthContext";
 
 interface IRoute {
   component: FC<any>;
   path: string;
 }
 
-const App: FC = () => {
-  const { isAuth } = useContext(AuthContext);
+const App: FC<null> = () => {
   
   return (
     <div>
@@ -21,7 +19,7 @@ const App: FC = () => {
             const { component: Component, path }: IRoute = route;
             if (route.private) {
               return (
-                <PrivateRoute isAuth={isAuth ? isAuth : false} key={key}>
+                <PrivateRoute key={key}>
                   <Component />
                 </PrivateRoute>
               );
