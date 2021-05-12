@@ -1,81 +1,88 @@
-import React, { useState, useContext, FC } from "react";
+import React, { useState, useContext, FC, useEffect } from "react";
 import { Redirect, useLocation } from "react-router";
-import {
-  FormGroup,
-  Input,
-  Label,
-  Button,
-  Form,
-  FormFeedback,
-} from "reactstrap";
+import { FormGroup, Input, Label, Button, Form, Alert } from "reactstrap";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { AuthContext } from "../context/AuthContext";
+import * as yup from "yup";
 
-
-interface ILoginInfos {
-  email: string | number;
+interface LoginProps {}
+interface IFormInputs {
+  email: string;
   password: string;
 }
-type HandleLoginType = (e: React.ChangeEvent<HTMLInputElement>) => void;
-type FormSubmitType = (e: React.FormEvent<HTMLFormElement>) => void;
 
+const schema = yup.object().shape({
+  email: yup
+    .string()
+    .trim()
+    .email("email adresi duzgun girilmedi")
+    .required("email bos birakilamaz"),
+  password: yup
+    .string()
+    .trim()
+    .min(3, "sifre min 3 haneli olmalidir")
+    .max(6, ({ value, max }) => {
+      return `Password cannot be more than ${max} characters. Your password length is ${value.length}.`;
+    })
+    .required("sifre bos birakilamaz"),
+});
 
-
-const Login: FC<null> = () => {
-  const [loginInfos, setLoginInfos] = useState<ILoginInfos>({
-    email: "",
-    password: "",
-  });
-  const [ isInvalid,setIsInvalid ] = useState(false);
+const Login: FC<LoginProps> = () => {
+  debugger;
+  const [isInvalid, setIsInvalid] = useState(false);
   const { state }: any = useLocation();
   const { isAuth, login } = useContext(AuthContext);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IFormInputs>({
+    resolver: yupResolver(schema),
+  });
 
-
-  const handleLogin: HandleLoginType = (e) => {
-    const { name, value } = e.target;
-
-    setLoginInfos((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  const accessToken = localStorage.getItem("accessToken");
+  const onSubmit: SubmitHandler<IFormInputs> = async (formData) => {
+    const isValid = await schema.isValid(formData);
+    console.log(isValid);
+    setIsInvalid(!isValid);
+    login(formData);
   };
 
-  const formSubmit: FormSubmitType = (e) => {
-    e.preventDefault();
-    login(loginInfos?.email, loginInfos?.password);
-  };
-
-  if (isAuth) {
+  if (accessToken) {
     return <Redirect to={state?.from || "/admin"} />;
-  }
+  } 
 
   return (
-    <Form onSubmit={formSubmit}>
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <FormGroup row>
         <Label for="email">Email</Label>
         <Input
-          type="email"
-          name="email"
+          type="text"
+          placeholder="email@email.com"
           id="email"
-          placeholder="email"
-          value={loginInfos.email}
-          onChange={handleLogin}
+          {...register("email")}
           invalid={isInvalid}
         />
+        {errors?.email && (
+          <p className="text-danger">{errors?.email?.message}</p>
+        )}
       </FormGroup>
       <FormGroup>
         <Label for="password">Password</Label>
         <Input
-          type="password"
-          name="password"
-          id="password"
+          type="text"
           placeholder="password"
-          value={loginInfos.password}
-          onChange={handleLogin}
-          invalid={isInvalid}
+          id="password"
+          {...register("password")}
         />
-        <FormFeedback>Username or password is invalid!</FormFeedback>
+        {errors?.password && (
+          <p className="text-danger">{errors?.password?.message}</p>
+        )}
       </FormGroup>
-      <Button color="success">LOGIN</Button>
+      <Button color="success" disabled={isInvalid}>
+        LOGIN
+      </Button>
     </Form>
   );
 };
