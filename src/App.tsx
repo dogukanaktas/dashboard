@@ -4,12 +4,14 @@ import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import PrivateRoute from "./core/PrivateRoute";
 import routes from "./routes/routes";
 
+interface AppProps {}
+
 interface IRoute {
   component: FC<any>;
   path: string;
 }
 
-const App: FC<null> = () => {
+const App: FC<AppProps> = () => {
   
   return (
     <div>
@@ -17,13 +19,13 @@ const App: FC<null> = () => {
         <Switch>
           {routes?.map((route, key) => {
             const { component: Component, path }: IRoute = route;
-            if (route.private) {
-              return (
-                <PrivateRoute key={key}>
-                  <Component />
-                </PrivateRoute>
-              );
-            }
+            // if (route.private) {
+            //   return (
+            //     <PrivateRoute key={key}>
+            //       <Component />
+            //     </PrivateRoute>
+            //   );
+            // }
             return (
               <Route path={path} key={key} exact>
                 <Component />
