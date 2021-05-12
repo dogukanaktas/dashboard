@@ -2,7 +2,7 @@ import React, { useState, useEffect, createContext, FC } from "react";
 import { useHistory } from "react-router";
 import loginService from "../services/loginService";
 
-type LoginType = (email: string | number, password: string) => void;
+type LoginType = (formData: object) => void;
 type LogoutType = () => void;
 
 interface IValue {
@@ -24,24 +24,18 @@ const AuthProvider: FC<AuthContextProps> = ({ children }) => {
   const history = useHistory();
 
   useEffect(() => {
-    
+  
   },[isAuth])
 
-
-  const login: LoginType = (email, password) => {
-    const loginInfos = {
-      email,
-      password,
-    };
-    
+  const login: LoginType = (formData) => {
     loginService
-      .getToken("/login", loginInfos)
+      .getToken("/login", formData)
       .then((accessToken) => {
         localStorage.setItem("accessToken", `Bearer ${accessToken}`);
         setIsAuth(true);
       })
       .catch((err) => {
-        // setIsInvalid(true)
+        // setIsInvalid(true);
         console.log(err);
       });
   };
@@ -49,7 +43,7 @@ const AuthProvider: FC<AuthContextProps> = ({ children }) => {
   const logout: LogoutType = () => {
     setIsAuth(false);
     localStorage.removeItem("accessToken");
-    history.push("/login");
+    history?.push("/login");
   };
 
   return (
