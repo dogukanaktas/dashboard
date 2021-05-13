@@ -6,7 +6,7 @@ type LoginType = (formData: object) => void;
 type LogoutType = () => void;
 
 interface IValue {
-  isAuth: boolean | null;
+  // isAuth: boolean | null;
   login: LoginType;
   logout: LogoutType;
 }
@@ -14,7 +14,7 @@ interface IValue {
 export interface AuthContextProps {}
 
 const AuthContext = createContext<IValue>({
-  isAuth: null,
+  // isAuth: null,
   login: () => {},
   logout: () => {}
 });
@@ -24,7 +24,7 @@ const AuthProvider: FC<AuthContextProps> = ({ children }) => {
   const history = useHistory();
 
   useEffect(() => {
-  
+    
   },[isAuth])
 
   const login: LoginType = (formData) => {
@@ -35,21 +35,19 @@ const AuthProvider: FC<AuthContextProps> = ({ children }) => {
         setIsAuth(true);
       })
       .catch((err) => {
-        // setIsInvalid(true);
         console.log(err);
       });
   };
 
   const logout: LogoutType = () => {
-    setIsAuth(false);
+    // setIsAuth(false);
     localStorage.removeItem("accessToken");
-    history?.push("/login");
   };
 
   return (
     <AuthContext.Provider
       value={{
-        isAuth,
+        // isAuth,
         login,
         logout,
       }}
