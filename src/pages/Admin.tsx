@@ -1,19 +1,27 @@
 import React, { useContext } from "react";
-import { Redirect } from "react-router";
+import { Redirect, useHistory } from "react-router";
 import { AuthContext } from "../context/AuthContext";
 
 const Admin: React.FC = () => {
-  const { isAuth, logout } = useContext(AuthContext);
-  console.log(isAuth);
+  const { logout } = useContext(AuthContext);
+  const accessToken = localStorage.getItem("accessToken");
+  const history = useHistory();
 
-  if (!isAuth) {
+  if (!accessToken) {
     return <Redirect to="/login" />;
   }
 
   return (
     <>
       <p>ADMIN</p>
-      <button onClick={() => logout()}>LOG OUT</button>
+      <button
+        onClick={() => {
+          logout();
+          history.push("/login");
+        }}
+      >
+        LOG OUT
+      </button>
     </>
   );
 };
