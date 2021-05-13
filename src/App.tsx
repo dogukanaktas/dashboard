@@ -1,6 +1,11 @@
 import "./App.css";
 import { FC } from "react";
-import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import {
+  Route,
+  Switch,
+  BrowserRouter as Router,
+  Redirect,
+} from "react-router-dom";
 import PrivateRoute from "./core/PrivateRoute";
 import routes from "./routes/routes";
 
@@ -12,29 +17,27 @@ interface IRoute {
 }
 
 const App: FC<AppProps> = () => {
-  
   return (
-    <div>
       <Router>
         <Switch>
           {routes?.map((route, key) => {
             const { component: Component, path }: IRoute = route;
-            // if (route.private) {
-            //   return (
-            //     <PrivateRoute key={key}>
-            //       <Component />
-            //     </PrivateRoute>
-            //   );
-            // }
+            if (route.private) {
+              return (
+                <PrivateRoute path={path} key={key}>
+                  <Component />
+                </PrivateRoute>
+              );
+            }
             return (
-              <Route path={path} key={key} exact>
+              <Route path={path} exact key={key}>
                 <Component />
               </Route>
             );
           })}
+          <Redirect to="/login" />
         </Switch>
       </Router>
-    </div>
   );
 };
 
