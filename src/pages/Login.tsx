@@ -16,23 +16,22 @@ const schema = yup.object().shape({
   email: yup
     .string()
     .trim()
-    .email("email adresi duzgun girilmedi")
-    .required("email bos birakilamaz"),
+    .email("Please enter valid email address.")
+    .required("Email field cannot be blank."),
   password: yup
     .string()
     .trim()
-    .min(3, "sifre min 3 haneli olmalidir")
     .max(6, ({ value, max }) => {
       return `Password cannot be more than ${max} characters. Your password length is ${value.length}.`;
     })
-    .required("sifre bos birakilamaz"),
+    .required("Password field cannot be blank."),
 });
 
 const Login: FC<LoginProps> = () => {
   debugger;
   const [isInvalid, setIsInvalid] = useState(false);
   const { state }: any = useLocation();
-  const { isAuth, login } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -44,11 +43,9 @@ const Login: FC<LoginProps> = () => {
   const accessToken = localStorage.getItem("accessToken");
   const onSubmit: SubmitHandler<IFormInputs> = async (formData) => {
     const isValid = await schema.isValid(formData);
-    console.log(isValid);
     setIsInvalid(!isValid);
     login(formData);
   };
-
   if (accessToken) {
     return <Redirect to={state?.from || "/admin"} />;
   } 
