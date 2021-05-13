@@ -28,10 +28,9 @@ const schema = yup.object().shape({
 });
 
 const Login: FC<LoginProps> = () => {
-  debugger;
   const [isInvalid, setIsInvalid] = useState(false);
   const { state }: any = useLocation();
-  const { login } = useContext(AuthContext);
+  const { login, isAuth } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -40,13 +39,12 @@ const Login: FC<LoginProps> = () => {
     resolver: yupResolver(schema),
   });
 
-  const accessToken = localStorage.getItem("accessToken");
   const onSubmit: SubmitHandler<IFormInputs> = async (formData) => {
     const isValid = await schema.isValid(formData);
     setIsInvalid(!isValid);
     login(formData);
   };
-  if (accessToken) {
+  if (isAuth) {
     return <Redirect to={state?.from || "/admin"} />;
   } 
 
