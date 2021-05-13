@@ -1,15 +1,15 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { Redirect, Route } from "react-router";
+import { AuthContext } from "../context/AuthContext";
 
 interface PrivateRouteProps {
   path: string;
 }
 
 const PrivateRoute: FC<PrivateRouteProps> = ({ children, path }) => {
+  const {isAuth} = useContext(AuthContext);
 
-  const accessToken = localStorage.getItem("accessToken");
-
-  if (accessToken) {
+  if (isAuth) {
     return <Route path={path}>{children}</Route>;
   }
   return <Redirect to="/login" />;
