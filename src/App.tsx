@@ -6,14 +6,16 @@ import {
   BrowserRouter as Router,
   Redirect,
 } from "react-router-dom";
-import PrivateRoute from "./core/PrivateRoute";
 import routes from "./routes/routes";
+import PrivateRoute from "./core/PrivateRoute";
+import PublicRoute from "./core/PublicRoute";
 
 interface AppProps {}
 
 interface IRoute {
   component: FC<any>;
   path: string;
+  name: string;
 }
 
 const App: FC<AppProps> = () => {
@@ -21,7 +23,7 @@ const App: FC<AppProps> = () => {
       <Router>
         <Switch>
           {routes?.map((route, key) => {
-            const { component: Component, path }: IRoute = route;
+            const { component: Component, path, name }: IRoute = route;
             if (route.private) {
               return (
                 <PrivateRoute path={path} key={key}>
@@ -30,9 +32,9 @@ const App: FC<AppProps> = () => {
               );
             }
             return (
-              <Route path={path} exact key={key}>
+              <PublicRoute path={path} key={key} name={name}>
                 <Component />
-              </Route>
+              </PublicRoute>
             );
           })}
           <Redirect to="/login" />
