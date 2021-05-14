@@ -29,8 +29,7 @@ const schema = yup.object().shape({
 
 const Login: FC<LoginProps> = () => {
   const [isInvalid, setIsInvalid] = useState(false);
-  const { state }: any = useLocation();
-  const { login, isAuth } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -44,9 +43,6 @@ const Login: FC<LoginProps> = () => {
     setIsInvalid(!isValid);
     login(formData);
   };
-  if (isAuth) {
-    return <Redirect to={state?.from || "/admin"} />;
-  } 
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
