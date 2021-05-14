@@ -12,7 +12,8 @@ const PublicRoute: FC<PublicRouteProps> = ({ children, path, name }) => {
 
   if (isAuth && name === "Login") {
     return <Redirect to="/admin" />;
-  } else if (isAuth || name === "Login") {
+  }
+  if (isAuth || name === "Login") {
     return (
       <Route path={path} exact>
         {children}
