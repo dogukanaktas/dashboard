@@ -37,7 +37,6 @@ const App: FC<AppProps> = () => {
               </PublicRoute>
             );
           })}
-          <Redirect to="/login" />
         </Switch>
       </Router>
   );
