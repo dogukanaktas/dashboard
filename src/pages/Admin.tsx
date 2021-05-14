@@ -3,12 +3,8 @@ import { Redirect, useHistory } from "react-router";
 import { AuthContext } from "../context/AuthContext";
 
 const Admin: React.FC = () => {
-  const { logout,isAuth } = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
   const history = useHistory();
-
-  if (!isAuth) {
-    return <Redirect to="/login" />;
-  }
 
   return (
     <>
