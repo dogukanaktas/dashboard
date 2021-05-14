@@ -10,7 +10,7 @@ const PrivateRoute: FC<PrivateRouteProps> = ({ children, path }) => {
   const {isAuth} = useContext(AuthContext);
 
   if (isAuth) {
-    return <Route path={path}>{children}</Route>;
+    return <Route path={path} exact>{children}</Route>;
   }
   return <Redirect to="/login" />;
 };
