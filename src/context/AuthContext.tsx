@@ -16,15 +16,17 @@ export interface AuthContextProps {}
 const AuthContext = createContext<IValue>({
   isAuth: null,
   login: () => {},
-  logout: () => {}
+  logout: () => {},
 });
 
 const AuthProvider: FC<AuthContextProps> = ({ children }) => {
   const [isAuth, setIsAuth] = useState<boolean | null>(null);
 
+  const token = localStorage.getItem("accessToken");
+
   useEffect(() => {
-      localStorage.getItem("accessToken") && setIsAuth(true);
-  },[isAuth])
+    token && token !== "" && token !== undefined && setIsAuth(true);
+  }, [isAuth, token]);
 
   const login: LoginType = (formData) => {
     loginService
