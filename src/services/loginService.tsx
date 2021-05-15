@@ -6,11 +6,10 @@ const loginService = {
     const request = await axios.post(config.TOKEN_URL + url, payload);
     const {
       status,
-      statusText,
       data: { accessToken },
     } = request;
 
-    if (status === 200 && statusText === "OK") {
+    if (status === 200 || status === 201) {
       return accessToken;
     } else {
       console.log(request);
