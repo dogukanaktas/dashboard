@@ -1,23 +1,13 @@
-import React, { useContext } from "react";
-import { Redirect, useHistory } from "react-router";
-import { AuthContext } from "../context/AuthContext";
+import { FC } from "react";
+import Header from "../components/Header";
+import User from "./User";
 
-const Admin: React.FC = () => {
-  const { logout } = useContext(AuthContext);
-  const history = useHistory();
-
+const Admin: FC = () => {
   return (
-    <>
-      <p>ADMIN</p>
-      <button
-        onClick={() => {
-          logout();
-          history.push("/login");
-        }}
-      >
-        LOG OUT
-      </button>
-    </>
+    <div className="d-flex justify-content-center align-items-center">
+      <Header title="Admin Dashboard"/>
+      <User/>
+    </div>
   );
 };
 
