@@ -20,25 +20,28 @@ interface IRoute {
 
 const App: FC<AppProps> = () => {
   return (
-      <Router>
-        <Switch>
-          {routes?.map((route, key) => {
-            const { component: Component, path, name }: IRoute = route;
-            if (route.private) {
-              return (
-                <PrivateRoute path={path} key={key}>
-                  <Component />
-                </PrivateRoute>
-              );
-            }
+    <Router>
+      <Switch>
+        {routes?.map((route, key) => {
+          const { component: Component, path, name }: IRoute = route;
+
+          if (route.private) {
             return (
-              <PublicRoute path={path} key={key} name={name}>
+              <PrivateRoute path={path} key={key}>
                 <Component />
-              </PublicRoute>
+              </PrivateRoute>
             );
-          })}
-        </Switch>
-      </Router>
+          }
+
+          return (
+            <PublicRoute path={path} key={key} name={name}>
+              <Component />
+            </PublicRoute>
+          );
+        })}
+        <Redirect to="/register" />;
+      </Switch>
+    </Router>
   );
 };
 
