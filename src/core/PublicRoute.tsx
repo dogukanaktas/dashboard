@@ -13,14 +13,14 @@ const PublicRoute: FC<PublicRouteProps> = ({ children, path, name }) => {
   if (isAuth && name === "Login") {
     return <Redirect to="/admin" />;
   }
-  if (isAuth || name === "Login") {
+  if (isAuth || name === "Login" || name === "Register") {
     return (
       <Route path={path} exact>
         {children}
       </Route>
     );
   }
-  return <Redirect to="/login" />;
+  return <Redirect to="/register" />;
 };
 
 export default PublicRoute;
