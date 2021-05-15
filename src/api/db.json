@@ -4,6 +4,114 @@
       "email": "dogukan@dogukan.com",
       "password": "$2a$10$nTQVFE2xalzgaDXUmH5aveLOVsv9ShFgPRR9OiOyN5vt7MLkXpTxy",
       "id": 1
+    },
+    {
+      "email": "john@smith.com",
+      "password": "$2a$10$md41gc0h.bkL2W6a/aTZreR.JMmlZ9YIulqjLqEkIpRtxdF1t94Rq",
+      "firstname": "John",
+      "lastname": "Smith",
+      "location": "Amsterdam",
+      "age": "29",
+      "id": 2
+    },
+    {
+      "email": "phil@mcgraw.com",
+      "password": "$2a$10$m.xqXkh7hGWZeLrCbZv4xO8b4WWKOuCQ4/dSifON8PPRphMiBgkZq",
+      "firstname": "Phil",
+      "lastname": "McGraw",
+      "location": "California",
+      "age": "54",
+      "id": 3
+    },
+    {
+      "email": "david@letterman.com",
+      "password": "$2a$10$HrDhCmEhY1nK6x5glWdZtetOnsp/Kh8MC.QYQKkh806IaBOA2yWle",
+      "firstname": "David",
+      "lastname": "Letterman",
+      "location": "London",
+      "age": "76",
+      "id": 4
+    },
+    {
+      "email": "elliot@sutton.com",
+      "password": "$2a$10$qBUmKH/dEX3rNZRaVaRIN.AJ/o3t8H4ZTWggRbj/TT5kNDCB4rpmK",
+      "firstname": "Elliot",
+      "lastname": "Sutton",
+      "location": "Alabama",
+      "age": "23",
+      "id": 5
+    },
+    {
+      "email": "gabriel@harper.com",
+      "password": "$2a$10$u8AckiFDXkH5ZsLZelHuIepbHZ71sgJeY0RzEspcI.iCLeZfSCkfi",
+      "firstname": "Gabriel",
+      "lastname": "Harper",
+      "location": "Berlin",
+      "age": "34",
+      "id": 6
+    },
+    {
+      "email": "eric@howe.com",
+      "password": "$2a$10$0p8o4txhoTD30y0xV6fuHuNk8caTW/0Q9DmjAVg90qts5mYmlAdZC",
+      "firstname": "Eric",
+      "lastname": "Howe",
+      "location": "Glasgow",
+      "age": "27",
+      "id": 7
+    },
+    {
+      "email": "braylen@banks.com",
+      "password": "$2a$10$lOantpv1F3miSwS8i3Yls.nbfcVE7n6WbMZ42iZZYB/2oiP/w3AUm",
+      "firstname": "Braylen",
+      "lastname": "Banks",
+      "location": "Chicago",
+      "age": "38",
+      "id": 8
+    },
+    {
+      "email": "mathias@riddle.com",
+      "password": "$2a$10$mlcPfo3q/npFOB883oQHg.GJ9p1Bc.RtMm1mMeIgWp5lvsxUdv1sG",
+      "firstname": "Mathias",
+      "lastname": "Riddle",
+      "location": "Paris",
+      "age": "44",
+      "id": 9
+    },
+    {
+      "email": "lambert@clair.com",
+      "password": "$2a$10$oLI7JLvYrDYVYxlQQg420ewWN2ZgdFrUqvCOs00Y5387b8nlG54L.",
+      "firstname": "Lambert",
+      "lastname": "Clair",
+      "location": "Lille",
+      "age": "19",
+      "id": 10
+    },
+    {
+      "email": "valeriano@soto.com",
+      "password": "$2a$10$2qICT2idR3xxve.ShhiE6u8O9vgCIUgs0wOik/RkgXt0FmGbyJqx.",
+      "firstname": "Valeriano",
+      "lastname": "Soto",
+      "location": "Barcelona",
+      "age": "23",
+      "id": 11
+    },
+    {
+      "email": "micheal@skogen.com",
+      "password": "$2a$10$09mol1akhSwCM1onrn8TReJFZeEeiKk69vUxLeFLBs.h2BKF5P96m",
+      "firstname": "Micheal",
+      "lastname": "Skogen",
+      "location": "Oslo",
+      "age": "52",
+      "id": 12
+    },
+    {
+      "email": "anton@teigen.com",
+      "password": "$2a$10$vJg18lfC.ps6nZzsUlLAv.G1gTqGfNMIQ9aBTAd2CkO4CP6m6liqy",
+      "firstname": "Anton",
+      "lastname": "Teigen",
+      "location": "Munich",
+      "age": "44",
+      "id": 13
     }
   ]
 }
