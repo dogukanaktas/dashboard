@@ -1,18 +1,43 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { Button, Table } from "reactstrap";
+import { Button, Input, Table } from "reactstrap";
 import { AuthContext } from "../context/AuthContext";
 import userService from "../services/userService";
 
+interface IsEditable {
+  status: boolean;
+  rowId: number | null | string;
+}
+
+interface EditableFields {
+  firstname: string;
+  lastname: string;
+  location: string;
+  age: string;
+  email: string;
+}
+
 const User = () => {
   const [users, setUsers] = useState<any>([]);
+  const [isEditable, setIsEditable] = useState<IsEditable>({
+    status: false,
+    rowId: null,
+  });
+  const [editableFields, setEditableFields] = useState<EditableFields>({
+    firstname: "",
+    lastname: "",
+    location: "",
+    age: "",
+    email: "",
+  });
+
   const { logout } = useContext(AuthContext);
   useEffect(() => {
     getUsers();
   }, []);
 
   const getUsers = async () => {
-    const data = await userService.getAll("/usrs");
+    const data = await userService.getAll("/users");
     console.log(data);
     setUsers(data);
   };
@@ -23,8 +48,48 @@ const User = () => {
     setUsers(data);
   };
 
-  const editUser = (id: number) => {
+  const handleEditableFieldsChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { name, value } = e.target;
+    setEditableFields((prev: EditableFields) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const toggleEditableStatus = () => {
+    setIsEditable((prev: IsEditable) => ({
+      ...prev,
+      status: !prev.status,
+    }));
+  };
+
+  const editUser = ({
+    id,
+    age,
+    firstname,
+    lastname,
+    location,
+    email,
+  }: {
+    id: string;
+    age: string;
+    firstname: string;
+    lastname: string;
+    location: string;
+    email: string;
+  }) => {
     console.log(id);
+    setIsEditable((prev: IsEditable) => ({ rowId: id, status: !prev.status }));
+    setEditableFields((prev: EditableFields) => ({
+      ...prev,
+      firstname,
+      lastname,
+      location,
+      email,
+      age,
+    }));
   };
 
   //   <Button
@@ -40,7 +105,7 @@ const User = () => {
   const history = useHistory();
 
   return (
-    <Table>
+    <Table hover>
       <thead>
         <tr>
           <th>ID</th>
@@ -53,24 +118,93 @@ const User = () => {
         </tr>
       </thead>
       <tbody>
-        {users?.map((user: any) => (
-          <tr key={user.id}>
-            <th scope="row">{user.id}</th>
-            <td>{user.firstname}</td>
-            <td>{user.lastname}</td>
-            <td>{user.email}</td>
-            <td>{user.location}</td>
-            <td>{user.age}</td>
-            <td>
-              <Button color="warning" onClick={() => editUser(user.id)}>
-                EDIT
-              </Button>
-              <Button color="danger" onClick={() => deleteUser(user.id)}>
-                DEL
-              </Button>
-            </td>
-          </tr>
-        ))}
+        {users?.map((user: any) => {
+          const { status, rowId } = isEditable;
+          const { firstname, lastname, email, location, age } = editableFields;
+          return (
+            <tr key={user.id}>
+              <th scope="row">{user.id}</th>
+              <td>
+                {status && rowId === user.id ? (
+                  <input
+                    value={firstname}
+                    name="firstname"
+                    onChange={handleEditableFieldsChange}
+                  />
+                ) : (
+                  user.firstname
+                )}
+              </td>
+              <td>
+                {status && rowId === user.id ? (
+                  <input
+                    value={lastname}
+                    name="lastname"
+                    onChange={handleEditableFieldsChange}
+                  />
+                ) : (
+                  user.lastname
+                )}
+              </td>
+              <td>
+                {status && rowId === user.id ? (
+                  <input
+                    value={email}
+                    name="email"
+                    onChange={handleEditableFieldsChange}
+                  />
+                ) : (
+                  user.email
+                )}
+              </td>
+              <td>
+                {status && rowId === user.id ? (
+                  <input
+                    value={location}
+                    name="location"
+                    onChange={handleEditableFieldsChange}
+                  />
+                ) : (
+                  user.location
+                )}
+              </td>
+              <td>
+                {status && rowId === user.id ? (
+                  <input
+                    value={age}
+                    name="age"
+                    onChange={handleEditableFieldsChange}
+                  />
+                ) : (
+                  user.age
+                )}
+              </td>
+              <td>
+                {status && rowId === user.id ? (
+                  <>
+                    <Button color="success" size="sm">
+                      SAVE
+                    </Button>
+                    <Button
+                      color="secondary"
+                      size="sm"
+                      onClick={toggleEditableStatus}
+                    >
+                      CANCEL
+                    </Button>
+                  </>
+                ) : (
+                  <Button color="warning" onClick={() => editUser(user)}>
+                    EDIT
+                  </Button>
+                )}
+                <Button color="danger" onClick={() => deleteUser(user.id)}>
+                  DEL
+                </Button>
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </Table>
   );
