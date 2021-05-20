@@ -50,7 +50,7 @@ const Login: FC<LoginProps> = () => {
     <>
     <Header title="LOGIN"/>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <FormGroup row>
+        <FormGroup>
           <Label for="email">Email</Label>
           <Input
             type="text"
