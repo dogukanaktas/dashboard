@@ -78,8 +78,8 @@ const Login: FC<LoginProps> = () => {
         <Button color="success" disabled={isInvalid}>
           LOGIN
         </Button>
-        <Button color="danger" onClick={() => history.push('/register')}>
-          REGISTER
+        <Button color="primary" onClick={() => history.push('/register')}>
+          I'M NOT A USER
         </Button>
       </Form>
     </>
