@@ -72,7 +72,6 @@ const User = () => {
 
   const getUsers = async () => {
     const data = await userService.getAll();
-    console.log(data)
     setUsers(data);
   };
 
