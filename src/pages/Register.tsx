@@ -1,14 +1,12 @@
-import { useState, useContext, FC } from "react";
-import { useHistory } from "react-router";
-import { FormGroup, Input, Label, Button, Form } from "reactstrap";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { AuthContext } from "../context/AuthContext";
-import * as yup from "yup";
-import Header from "../components/Header";
-import { capitilize } from "../utilities";
-import { string } from "yup/lib/locale";
-import axios from "axios";
+import { useState, FC } from 'react';
+import { useHistory } from 'react-router';
+import { FormGroup, Input, Label, Button, Form } from 'reactstrap';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import Header from '../components/Header';
+import { capitilize } from '../utilities';
+import userService from '../services/userService';
 
 interface RegisterProps {}
 interface IFormInputs {
@@ -21,14 +19,14 @@ interface IFormInputs {
 }
 
 const schema = yup.object().shape({
-  firstname: yup.string().required("First name is required"),
+  firstname: yup.string().required('First name is required'),
 
-  lastname: yup.string().required("Last name is required"),
+  lastname: yup.string().required('Last name is required'),
 
   email: yup
     .string()
     .trim()
-    .email("Please enter valid email address.")
+    .email('Please enter valid email address.')
     .required(({ path }) => `${capitilize(path)} is required`),
 
   location: yup
@@ -61,13 +59,13 @@ const Register: FC<RegisterProps> = () => {
   } = useForm<IFormInputs>({
     resolver: yupResolver(schema),
   });
-  const { registerUser } = useContext(AuthContext);
   const history = useHistory();
 
   const onSubmit: SubmitHandler<IFormInputs> = async (formData, e) => {
     const isValid = await schema.isValid(formData);
     setIsInvalid(!isValid);
-    registerUser(formData);
+    const accessToken = await userService.register(formData);
+    isValid && !!accessToken && history.push('/login');
   };
 
   return (
@@ -80,7 +78,7 @@ const Register: FC<RegisterProps> = () => {
             type="text"
             placeholder="John"
             id="firstName"
-            {...register("firstname")}
+            {...register('firstname')}
           />
           {errors?.firstname && (
             <p className="text-danger">{errors?.firstname?.message}</p>
@@ -92,19 +90,19 @@ const Register: FC<RegisterProps> = () => {
             type="text"
             placeholder="Smith"
             id="lastName"
-            {...register("lastname")}
+            {...register('lastname')}
           />
           {errors?.lastname && (
             <p className="text-danger">{errors?.lastname?.message}</p>
           )}
         </FormGroup>
-        <FormGroup row>
+        <FormGroup>
           <Label for="email">Email</Label>
           <Input
             type="text"
-            placeholder="  john@smith.com"
+            placeholder="john@smith.com"
             id="email"
-            {...register("email")}
+            {...register('email')}
             invalid={isInvalid}
           />
           {errors?.email && (
@@ -117,7 +115,7 @@ const Register: FC<RegisterProps> = () => {
             type="text"
             placeholder="New York"
             id="location"
-            {...register("location")}
+            {...register('location')}
           />
           {errors?.location && (
             <p className="text-danger">{errors?.location?.message}</p>
@@ -125,7 +123,7 @@ const Register: FC<RegisterProps> = () => {
         </FormGroup>
         <FormGroup>
           <Label for="age">Age</Label>
-          <Input type="text" placeholder="29" id="age" {...register("age")} />
+          <Input type="text" placeholder="29" id="age" {...register('age')} />
           {errors?.age && <p className="text-danger">{errors?.age?.message}</p>}
         </FormGroup>
         <FormGroup>
@@ -134,7 +132,7 @@ const Register: FC<RegisterProps> = () => {
             type="text"
             placeholder="At least 6 characters"
             id="password"
-            {...register("password")}
+            {...register('password')}
           />
           {errors?.password && (
             <p className="text-danger">{errors?.password?.message}</p>
@@ -143,7 +141,7 @@ const Register: FC<RegisterProps> = () => {
         <Button color="success" disabled={isInvalid}>
           REGISTER
         </Button>
-        <Button color="warning" onClick={() => history.push("/login")}>
+        <Button color="primary" onClick={() => history.push('/login')}>
           I'M A USER
         </Button>
       </Form>
