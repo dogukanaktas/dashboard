@@ -4,7 +4,7 @@ import User from "./User";
 
 const Admin: FC = () => {
   return (
-    <div className="d-flex justify-content-center align-items-center">
+    <div className="d-flex flex-column align-items-center">
       <Header title="Admin Dashboard"/>
       <User/>
     </div>
