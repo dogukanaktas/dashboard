@@ -3,7 +3,11 @@
     {
       "email": "dogukan@dogukan.com",
       "password": "$2a$10$nTQVFE2xalzgaDXUmH5aveLOVsv9ShFgPRR9OiOyN5vt7MLkXpTxy",
-      "id": 1
+      "id": 1,
+      "firstname": "Dogukan",
+      "lastname": "Aktas",
+      "location": "Istanbul",
+      "age": "29"
     },
     {
       "email": "john@smith.com",
@@ -11,7 +15,7 @@
       "firstname": "John",
       "lastname": "Smith",
       "location": "Amsterdam",
-      "age": "29",
+      "age": "26",
       "id": 2
     },
     {
@@ -20,7 +24,7 @@
       "firstname": "Phil",
       "lastname": "McGraw",
       "location": "California",
-      "age": "54",
+      "age": "52",
       "id": 3
     },
     {
@@ -29,7 +33,7 @@
       "firstname": "David",
       "lastname": "Letterman",
       "location": "London",
-      "age": "76",
+      "age": "71",
       "id": 4
     },
     {
@@ -38,7 +42,7 @@
       "firstname": "Elliot",
       "lastname": "Sutton",
       "location": "Alabama",
-      "age": "23",
+      "age": "22",
       "id": 5
     },
     {
@@ -47,7 +51,7 @@
       "firstname": "Gabriel",
       "lastname": "Harper",
       "location": "Berlin",
-      "age": "34",
+      "age": "28",
       "id": 6
     },
     {
@@ -56,7 +60,7 @@
       "firstname": "Eric",
       "lastname": "Howe",
       "location": "Glasgow",
-      "age": "27",
+      "age": "25",
       "id": 7
     },
     {
@@ -65,7 +69,7 @@
       "firstname": "Braylen",
       "lastname": "Banks",
       "location": "Chicago",
-      "age": "38",
+      "age": "21",
       "id": 8
     },
     {
@@ -74,7 +78,7 @@
       "firstname": "Mathias",
       "lastname": "Riddle",
       "location": "Paris",
-      "age": "44",
+      "age": "39",
       "id": 9
     },
     {
@@ -83,7 +87,7 @@
       "firstname": "Lambert",
       "lastname": "Clair",
       "location": "Lille",
-      "age": "19",
+      "age": "26",
       "id": 10
     },
     {
@@ -105,13 +109,40 @@
       "id": 12
     },
     {
-      "email": "anton@teigen.com",
-      "password": "$2a$10$vJg18lfC.ps6nZzsUlLAv.G1gTqGfNMIQ9aBTAd2CkO4CP6m6liqy",
-      "firstname": "Anton",
-      "lastname": "Teigen",
-      "location": "Munich",
-      "age": "44",
+      "email": "mehmet@akyuz.com",
+      "password": "$2a$10$A/NSNIxa/SZ/gTHjMuj49uWp2./aG6P9Zx3noNTkLZAxe4win9pDW",
+      "firstname": "Mehmet",
+      "lastname": "Akyuz",
+      "location": "Ankara",
+      "age": "32",
       "id": 13
+    },
+    {
+      "email": "mehmet@sen.com",
+      "password": "$2a$10$sSvLeSAVYIOaR/jMMXyZTe2Tc61mmTMdx3efsimkCaTgVWXAs6RpG",
+      "firstname": "Mehmet",
+      "lastname": "Sen",
+      "location": "Izmir",
+      "age": "22",
+      "id": 14
+    },
+    {
+      "email": "patrick@solomon.com",
+      "password": "$2a$10$D3bTkfS8iccrFd2MTbgkTuLqT0As..HI8Uk3aCihFi4L44fqIDzQe",
+      "firstname": "Patrick",
+      "lastname": "Solomon",
+      "location": "Ohio",
+      "age": "31",
+      "id": 15
+    },
+    {
+      "email": "josh@milligan.com",
+      "password": "$2a$10$DUZQqh277L1kfT/FVKwaDO6r0Ldkv9VThHiKGOwXCt3y4y796tyGK",
+      "firstname": "Josh",
+      "lastname": "Milligan",
+      "location": "Ontario",
+      "age": "43",
+      "id": 16
     }
   ]
 }
