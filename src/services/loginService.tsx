@@ -4,6 +4,7 @@ import config from "../env/config";
 const loginService = {
   getToken: async (url: string, payload: object) => {
     const request = await axios.post(config.TOKEN_URL + url, payload);
+    
     const {
       status,
       data: { accessToken },
