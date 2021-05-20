@@ -17,12 +17,6 @@ const routes = [
     private: false,
   },
   {
-    component: User,
-    path: "/user",
-    name: "User",
-    private: false,
-  },
-  {
     component: Admin,
     path: "/admin",
     name: "Admin",
