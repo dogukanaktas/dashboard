@@ -20,7 +20,7 @@ const PublicRoute: FC<PublicRouteProps> = ({ children, path, name }) => {
       </Route>
     );
   }
-  return <Redirect to="/register" />;
+  return <Redirect to="/login" />;
 };
 
 export default PublicRoute;
