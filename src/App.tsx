@@ -39,7 +39,7 @@ const App: FC<AppProps> = () => {
             </PublicRoute>
           );
         })}
-        <Redirect to="/register" />;
+        <Redirect to="/login" />;
       </Switch>
     </Router>
   );
