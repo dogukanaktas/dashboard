@@ -8,7 +8,7 @@ interface PrivateRouteProps {
 
 const PrivateRoute: FC<PrivateRouteProps> = ({ children, path }) => {
   const {isAuth} = useContext(AuthContext);
-
+  
   if (isAuth) {
     return <Route path={path} exact>{children}</Route>;
   }
