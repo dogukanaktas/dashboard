@@ -1,9 +1,8 @@
-import axios from "axios";
-import config from "../env/config";
+import axiosInstance from "../helpers/axios";
 
 const loginService = {
   getToken: async (url: string, payload: object) => {
-    const request = await axios.post(config.TOKEN_URL + url, payload);
+    const request = await axiosInstance.post(url, payload);
     
     const {
       status,
