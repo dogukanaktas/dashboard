@@ -1,24 +1,16 @@
-import axios from 'axios';
-import config from '../env/config';
+import axiosInstance from '../helpers/axios';
 import { EditableFields } from '../pages/User';
 import { Users } from '../types/types';
 import loginService from './loginService';
 
-
-
 const userService = {
-  getAll: async (id?: number) => {
+  getAll: async (id: number | null | '' = '') => {
     let data: Users[] = [];
-    await axios
-      .get(config.TOKEN_URL + `usrs/` + (typeof id === 'number' ? id : ''))
-      .then((res) => {
-        const { status, statusText } = res;
 
-        if (status === 200 || statusText === 'OK') {
-          data = res.data;
-        } else {
-          console.error(res);
-        }
+    await axiosInstance
+      .get(`/users/${id}`)
+      .then((res) => {
+        data = res.data;
       })
       .catch((err) => console.log(err));
 
@@ -28,7 +20,7 @@ const userService = {
   register: async (formData: object) => {
     let result: string = '';
     await loginService
-      .getToken('register/', formData)
+      .getToken('/register/', formData)
       .then((token) => {
         result = token;
       })
@@ -37,33 +29,17 @@ const userService = {
     return result;
   },
 
-  delete: async (id: number | null) => {
+  delete: async (id: number | null | '' = '') => {
     let data;
-    const request = await axios.delete(
-      config.TOKEN_URL + `users/` + (typeof id === 'number' ? `/` + id : ''),
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: localStorage.getItem('accessToken'),
-        },
-      }
-    );
-    const { status, statusText } = request;
-
-    if (status === 200 && statusText === 'OK') {
-      data = request.data;
-    } else {
-      console.error(request);
-    }
+    await axiosInstance.delete(`/users/${id}`).then((res) => {
+      data = res.data;
+    });
 
     return data;
   },
 
-  patch: async (id: number | null, userData: EditableFields) => {
-    return await axios.patch(
-      config.TOKEN_URL + `users/` + (typeof id === 'number' ? `/` + id : ''),
-      userData
-    );
+  patch: async (id: number | null | '' = '', userData: EditableFields) => {
+    return await axiosInstance.patch(`/users/${id}`, userData);
   },
 };
 
