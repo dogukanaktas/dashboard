@@ -1,11 +1,12 @@
-import React, { useState, useContext, FC } from "react";
-import { useHistory } from "react-router";
-import { FormGroup, Input, Label, Button, Form } from "reactstrap";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { AuthContext } from "../context/AuthContext";
-import * as yup from "yup";
-import Header from "../components/Header";
+import { useState, useContext, FC, useRef } from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
+import { useHistory } from 'react-router';
+import { FormGroup, Input, Label, Button, Form } from 'reactstrap';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { AuthContext } from '../context/AuthContext';
+import * as yup from 'yup';
+import Header from '../components/Header';
 
 interface LoginProps {}
 interface IFormInputs {
@@ -17,20 +18,22 @@ const schema = yup.object().shape({
   email: yup
     .string()
     .trim()
-    .email("Please enter valid email address.")
-    .required("Email field cannot be blank."),
+    .email('Please enter valid email address.')
+    .required('Email field cannot be blank.'),
   password: yup
     .string()
     .trim()
-    .max(6, ({ value, max }) => {
-      return `Password cannot be more than ${max} characters. Your password length is ${value.length}.`;
-    })
-    .required("Password field cannot be blank."),
+    // .min(6, ({ value, min }) => {
+    //   return `Password cannot be less than ${min} characters. Your password length is ${value.length}.`;
+    // })
+    .required('Password field cannot be blank.'),
 });
 
 const Login: FC<LoginProps> = () => {
   const [isInvalid, setIsInvalid] = useState(false);
+  const reCaptchaRef = useRef<ReCAPTCHA>(null);
   const { login } = useContext(AuthContext);
+  const history = useHistory();
   const {
     register,
     handleSubmit,
@@ -38,17 +41,24 @@ const Login: FC<LoginProps> = () => {
   } = useForm<IFormInputs>({
     resolver: yupResolver(schema),
   });
-  const history = useHistory();
+  const sitekey = process.env.REACT_APP_RECAPTCHA_KEY as string;
 
   const onSubmit: SubmitHandler<IFormInputs> = async (formData) => {
     const isValid = await schema.isValid(formData);
     setIsInvalid(!isValid);
-    login(formData);
+    if (isValid) {
+      reCaptchaRef.current?.reset();
+      login(formData);
+    }
+  };
+
+  const handleReCaptcha = (val: string | null) => {
+    console.log(val);
   };
 
   return (
     <>
-    <Header title="LOGIN"/>
+      <Header title="LOGIN" />
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormGroup>
           <Label for="email">Email</Label>
@@ -56,7 +66,7 @@ const Login: FC<LoginProps> = () => {
             type="text"
             placeholder="email@email.com"
             id="email"
-            {...register("email")}
+            {...register('email')}
             invalid={isInvalid}
           />
           {errors?.email && (
@@ -69,12 +79,17 @@ const Login: FC<LoginProps> = () => {
             type="text"
             placeholder="password"
             id="password"
-            {...register("password")}
+            {...register('password')}
           />
           {errors?.password && (
             <p className="text-danger">{errors?.password?.message}</p>
           )}
         </FormGroup>
+        <ReCAPTCHA
+          sitekey={sitekey}
+          onChange={handleReCaptcha}
+          ref={reCaptchaRef}
+        />
         <Button color="success" disabled={isInvalid}>
           LOGIN
         </Button>
