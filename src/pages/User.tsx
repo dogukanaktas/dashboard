@@ -1,16 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useHistory } from "react-router";
-import {
-  Alert,
-  Button,
-  Modal,
-  ModalFooter,
-  ModalHeader,
-  Table,
-} from "reactstrap";
-import { AuthContext } from "../context/AuthContext";
-import userService from "../services/userService";
-import { Users } from "../types/types";
+import React, { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
+import { Alert, Button, Table } from 'reactstrap';
+import CustomAlert from '../components/CustomAlert';
+import CustomModal from '../components/CustomModal';
+import { AuthContext } from '../context/AuthContext';
+import userService from '../services/userService';
+import { Users } from '../types/types';
 
 export interface IsEditable {
   status: boolean;
@@ -32,10 +27,8 @@ export interface Modals {
 }
 
 export interface Alerts {
-  success: boolean;
-  successMessage: string | null;
-  fail: boolean;
-  failMessage: string | null;
+  isSuccess: boolean;
+  message: string | null;
 }
 
 const User = () => {
@@ -46,21 +39,19 @@ const User = () => {
     rowId: null,
   });
   const [editableFields, setEditableFields] = useState<EditableFields>({
-    firstname: "",
-    lastname: "",
-    location: "",
-    age: "",
-    email: "",
+    firstname: '',
+    lastname: '',
+    location: '',
+    age: '',
+    email: '',
   });
   const [modals, setModals] = useState<Modals>({
     save: false,
     delete: false,
   });
   const [alerts, setAlerts] = useState<Alerts>({
-    success: false,
-    successMessage: null,
-    fail: false,
-    failMessage: null,
+    isSuccess: false,
+    message: null,
   });
   const history = useHistory();
 
@@ -83,20 +74,20 @@ const User = () => {
       data: { firstname, lastname },
     } = request;
 
-    if (status === 200 && statusText === "OK") {
+    if (status === 200 && statusText === 'OK') {
       setAlerts((prev: Alerts) => ({
         ...prev,
-        success: true,
-        successMessage: `${firstname} ${lastname}'s information has been updated successfully.`,
+        isSuccess: true,
+        message: `${firstname} ${lastname}'s information has been updated successfully.`,
       }));
-      toggleEditableStatus();
-      getUsers();
+        toggleEditableStatus();
+        getUsers();
       setModals((prev: Modals) => ({ ...prev, save: false, delete: false }));
     } else {
       setAlerts((prev: Alerts) => ({
         ...prev,
-        fail: true,
-        failMessage: `${firstname} ${lastname}'s information could not be saved`,
+        isSuccess: true,
+        message: `${firstname} ${lastname}'s information could not be saved`,
       }));
       setModals((prev: Modals) => ({ ...prev, save: false, delete: false }));
     }
@@ -108,7 +99,7 @@ const User = () => {
     setAlerts((prev: Alerts) => ({
       ...prev,
       success: true,
-      successMessage: `User successfully deleted`,
+      message: `User successfully deleted`,
     }));
     setModals((prev: Modals) => ({ ...prev, delete: false }));
     getUsers();
@@ -163,29 +154,29 @@ const User = () => {
         color="danger"
         onClick={() => {
           logout();
-          history.push("/login");
+          history.push('/login');
         }}
       >
         LOG OUT
       </Button>
-      <Alert
+      <CustomAlert
         color="success"
-        isOpen={alerts.success}
+        isOpen={alerts.isSuccess}
         toggle={() =>
-          setAlerts((prev: Alerts) => ({ ...prev, success: !prev.success }))
+          setAlerts((prev: Alerts) => ({ ...prev, isSuccess: false}))
         }
       >
-        {alerts.successMessage}
-      </Alert>
-      <Alert
+        {alerts.message}
+      </CustomAlert>
+      {/* <Alert
         color="danger"
-        isOpen={alerts.fail}
+        isOpen={alerts.isSuccess}
         toggle={() =>
-          setAlerts((prev: Alerts) => ({ ...prev, fail: !prev.fail }))
+          setAlerts((prev: Alerts) => ({ ...prev, isSuccess: !prev.isSuccess }))
         }
       >
-        {alerts.failMessage}
-      </Alert>
+        {alerts.message}
+      </Alert> */}
       <Table hover>
         <thead>
           <tr>
@@ -303,32 +294,8 @@ const User = () => {
               </tr>
             );
           })}
-          <Modal
-            isOpen={modals.save}
-            toggle={() =>
-              setModals((prev: Modals) => ({ ...prev, save: !prev.save }))
-            }
-            centered
-            autoFocus
-            size="sm"
-          >
-            <ModalHeader>Do you want to save the changes?</ModalHeader>
-            <ModalFooter style={{ display: `flex`, justifyContent: `center` }}>
-              <Button color="success" onClick={addUser}>
-                SAVE
-              </Button>
-              <Button
-                color="danger"
-                onClick={() =>
-                  setModals((prev: Modals) => ({ ...prev, save: !prev.save }))
-                }
-              >
-                CANCEL
-              </Button>
-            </ModalFooter>
-          </Modal>
 
-          <Modal
+          {/* <Modal
             isOpen={modals.delete}
             toggle={() =>
               setModals((prev: Modals) => ({ ...prev, delete: !prev.delete }))
@@ -354,7 +321,73 @@ const User = () => {
                 CANCEL
               </Button>
             </ModalFooter>
-          </Modal>
+          </Modal> */}
+
+          {/* <Modal
+            isOpen={modals.save}
+            toggle={() =>
+              setModals((prev: Modals) => ({ ...prev, save: !prev.save }))
+            }
+            centered
+            autoFocus
+            size="sm"
+          >
+            <ModalHeader>Do you want to save the changes?</ModalHeader>
+            <ModalFooter style={{ display: `flex`, justifyContent: `center` }}>
+              <Button color="success" onClick={addUser}>
+                SAVE
+              </Button>
+              <Button
+                color="danger"
+                onClick={() =>
+                  setModals((prev: Modals) => ({ ...prev, save: !prev.save }))
+                }
+              >
+                CANCEL
+              </Button>
+            </ModalFooter>
+          </Modal> */}
+
+          <CustomModal
+            title="Do you want to save the changes?"
+            isOpen={modals.save}
+            size="sm"
+            centered
+            centeredButtons
+            autoFocus
+            toggle={() =>
+              setModals((prev: Modals) => ({ ...prev, save: !prev.save }))
+            }
+            cancelFunc={() =>
+              setModals((prev: Modals) => ({ ...prev, save: !prev.save }))
+            }
+          >
+            <Button color="success" onClick={addUser}>
+              SAVE
+            </Button>
+          </CustomModal>
+
+          <CustomModal
+            title="Do you want to delete the user?"
+            isOpen={modals.delete}
+            size="sm"
+            centered
+            centeredButtons
+            autoFocus
+            toggle={() =>
+              setModals((prev: Modals) => ({ ...prev, delete: !prev.delete }))
+            }
+            cancelFunc={() =>
+              setModals((prev: Modals) => ({
+                ...prev,
+                delete: !prev.delete,
+              }))
+            }
+          >
+            <Button color="primary" onClick={deleteUser}>
+              DELETE
+            </Button>
+          </CustomModal>
         </tbody>
       </Table>
     </>
