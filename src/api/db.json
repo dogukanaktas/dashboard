@@ -7,7 +7,7 @@
       "firstname": "Dogukan",
       "lastname": "Aktas",
       "location": "Istanbul",
-      "age": "29"
+      "age": "21"
     },
     {
       "email": "john@smith.com",
@@ -15,7 +15,7 @@
       "firstname": "John",
       "lastname": "Smith",
       "location": "Amsterdam",
-      "age": "26",
+      "age": "22",
       "id": 2
     },
     {
@@ -33,7 +33,7 @@
       "firstname": "David",
       "lastname": "Letterman",
       "location": "London",
-      "age": "71",
+      "age": "75",
       "id": 4
     },
     {
@@ -42,7 +42,7 @@
       "firstname": "Elliot",
       "lastname": "Sutton",
       "location": "Alabama",
-      "age": "22",
+      "age": "19",
       "id": 5
     },
     {
@@ -78,7 +78,7 @@
       "firstname": "Mathias",
       "lastname": "Riddle",
       "location": "Paris",
-      "age": "39",
+      "age": "35",
       "id": 9
     },
     {
@@ -96,7 +96,7 @@
       "firstname": "Valeriano",
       "lastname": "Soto",
       "location": "Barcelona",
-      "age": "23",
+      "age": "22",
       "id": 11
     },
     {
@@ -105,7 +105,7 @@
       "firstname": "Micheal",
       "lastname": "Skogen",
       "location": "Oslo",
-      "age": "52",
+      "age": "53",
       "id": 12
     },
     {
@@ -125,24 +125,6 @@
       "location": "Izmir",
       "age": "22",
       "id": 14
-    },
-    {
-      "email": "patrick@solomon.com",
-      "password": "$2a$10$D3bTkfS8iccrFd2MTbgkTuLqT0As..HI8Uk3aCihFi4L44fqIDzQe",
-      "firstname": "Patrick",
-      "lastname": "Solomon",
-      "location": "Ohio",
-      "age": "31",
-      "id": 15
-    },
-    {
-      "email": "josh@milligan.com",
-      "password": "$2a$10$DUZQqh277L1kfT/FVKwaDO6r0Ldkv9VThHiKGOwXCt3y4y796tyGK",
-      "firstname": "Josh",
-      "lastname": "Milligan",
-      "location": "Ontario",
-      "age": "43",
-      "id": 16
     }
   ]
 }
