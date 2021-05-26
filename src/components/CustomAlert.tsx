@@ -13,19 +13,25 @@ interface CustomAlertProps {
     | 'dark';
   isOpen?: boolean;
   fade?: boolean;
+  timeoutTime?: number;
   toggle?: () => void;
   children: ReactNode;
 }
 
-const CustomAlert = ({ color, isOpen, fade, toggle, children }: CustomAlertProps) => {
+const CustomAlert = ({
+  color,
+  isOpen,
+  fade,
+  timeoutTime = 2000,
+  toggle,
+  children,
+}: CustomAlertProps) => {
   useEffect(() => {
-    let closeAlert = setTimeout(() => {
-      toggle?.();
-    }, 3000);
+    let closeAlert = setTimeout(() => toggle?.(), timeoutTime);
     return () => {
       clearTimeout(closeAlert);
     };
-  }, []);
+  }, [isOpen]);
 
   return (
     <Alert
