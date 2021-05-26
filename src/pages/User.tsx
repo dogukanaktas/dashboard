@@ -75,13 +75,13 @@ const User = () => {
     } = request;
 
     if (status === 200 && statusText === 'OK') {
+      toggleEditableStatus();
+      getUsers();
       setAlerts((prev: Alerts) => ({
         ...prev,
         isSuccess: true,
         message: `${firstname} ${lastname}'s information has been updated successfully.`,
       }));
-        toggleEditableStatus();
-        getUsers();
       setModals((prev: Modals) => ({ ...prev, save: false, delete: false }));
     } else {
       setAlerts((prev: Alerts) => ({
@@ -98,7 +98,7 @@ const User = () => {
 
     setAlerts((prev: Alerts) => ({
       ...prev,
-      success: true,
+      isSuccess: true,
       message: `User successfully deleted`,
     }));
     setModals((prev: Modals) => ({ ...prev, delete: false }));
@@ -113,7 +113,7 @@ const User = () => {
     location,
     email,
   }: {
-    id: string;
+    id: number;
     age: string;
     firstname: string;
     lastname: string;
@@ -162,21 +162,13 @@ const User = () => {
       <CustomAlert
         color="success"
         isOpen={alerts.isSuccess}
+        timeoutTime={3000}
         toggle={() =>
-          setAlerts((prev: Alerts) => ({ ...prev, isSuccess: false}))
+          setAlerts((prev: Alerts) => ({ ...prev, isSuccess: false }))
         }
       >
         {alerts.message}
       </CustomAlert>
-      {/* <Alert
-        color="danger"
-        isOpen={alerts.isSuccess}
-        toggle={() =>
-          setAlerts((prev: Alerts) => ({ ...prev, isSuccess: !prev.isSuccess }))
-        }
-      >
-        {alerts.message}
-      </Alert> */}
       <Table hover>
         <thead>
           <tr>
@@ -190,7 +182,7 @@ const User = () => {
           </tr>
         </thead>
         <tbody>
-          {users?.map((user: any) => {
+          {users?.map((user: Users) => {
             const { status, rowId } = isEditable;
             const { firstname, lastname, email, location, age } =
               editableFields;
@@ -294,59 +286,6 @@ const User = () => {
               </tr>
             );
           })}
-
-          {/* <Modal
-            isOpen={modals.delete}
-            toggle={() =>
-              setModals((prev: Modals) => ({ ...prev, delete: !prev.delete }))
-            }
-            centered
-            autoFocus
-            size="sm"
-          >
-            <ModalHeader>Do you want to delete the user?</ModalHeader>
-            <ModalFooter className="d-flex justify-content-center">
-              <Button color="primary" onClick={deleteUser}>
-                DELETE
-              </Button>
-              <Button
-                color="danger"
-                onClick={() =>
-                  setModals((prev: Modals) => ({
-                    ...prev,
-                    delete: !prev.delete,
-                  }))
-                }
-              >
-                CANCEL
-              </Button>
-            </ModalFooter>
-          </Modal> */}
-
-          {/* <Modal
-            isOpen={modals.save}
-            toggle={() =>
-              setModals((prev: Modals) => ({ ...prev, save: !prev.save }))
-            }
-            centered
-            autoFocus
-            size="sm"
-          >
-            <ModalHeader>Do you want to save the changes?</ModalHeader>
-            <ModalFooter style={{ display: `flex`, justifyContent: `center` }}>
-              <Button color="success" onClick={addUser}>
-                SAVE
-              </Button>
-              <Button
-                color="danger"
-                onClick={() =>
-                  setModals((prev: Modals) => ({ ...prev, save: !prev.save }))
-                }
-              >
-                CANCEL
-              </Button>
-            </ModalFooter>
-          </Modal> */}
 
           <CustomModal
             title="Do you want to save the changes?"
